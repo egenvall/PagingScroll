@@ -1,10 +1,12 @@
 import SwiftUI
+
 struct PagingScrollView<Content: View>: View {
     @StateObject var controller: PagingScrollController = PagingScrollController()
     @Binding var highlightedIndex: Int
     let items: [RowItem]
     let options: PagingScrollViewOptions
     @State var containerWidth: CGFloat = 0
+    @State private var itemSize: CGSize = .zero
     
     init<Data: RandomAccessCollection, ID>(_ options: PagingScrollViewOptions, highlightedIndex: Binding<Int>, @ViewBuilder content: () -> ForEach<Data, ID, Content>) {
         self._highlightedIndex = highlightedIndex
@@ -22,13 +24,16 @@ struct PagingScrollView<Content: View>: View {
                 HStack(alignment: .center, spacing: options.itemSpacing) {
                     ForEach(items) { item in
                         item.view
-                            .frame(width: options.itemSize.width, height: options.itemSize.height)
+                            .readSize { size in
+                                itemSize = size
+                                finalizeOffset()
+                            }
                             .onTapGesture {
                                 selectIndex(item.id)
                             }
                         
                     }
-                }
+                }.padding([.vertical], options.verticalPadding)
             }
             .content
             .offset(x: controller.isSwiping ? controller.offset : controller.offsetOnLastDragEnd)
@@ -53,7 +58,9 @@ struct PagingScrollView<Content: View>: View {
             .onAppear {
                 containerWidth = proxy.size.width
             }
-        }.onAppear {
+        }
+        .frame(height: options.verticalGrowthBehavior == .fit ? itemSize.height + options.verticalPadding * 2 : nil)
+        .onAppear {
             finalizeOffset()
         }
         .onChange(of: highlightedIndex) { newIndex in
@@ -62,6 +69,7 @@ struct PagingScrollView<Content: View>: View {
             }
             finalizeOffset()
         }
+        
     }
 }
 
@@ -76,11 +84,11 @@ extension PagingScrollView {
         guard options.contentMode == .center else {
             return 0
         }
-        return (containerWidth - options.itemSize.width) / 2
+        return (containerWidth - itemSize.width) / 2
     }
     
     private func calculateDefaultOffset() -> CGFloat {
-        return -(options.itemSize.width + options.itemSpacing) * CGFloat(highlightedIndex)
+        return -(itemSize.width + options.itemSpacing) * CGFloat(highlightedIndex)
     }
     
     private func getNewOffset(_ swipeDistance: CGFloat) -> CGFloat {
@@ -126,6 +134,7 @@ extension PagingScrollView {
             return
         }
         controller.offsetOnLastDragEnd = calculateEndingOffset()
+        print("Set Offset: \(controller.offsetOnLastDragEnd)")
     }
 }
 // MARK: - Calculate Highlighted Item
@@ -146,10 +155,10 @@ extension PagingScrollView {
         guard newOffset < 0 else {
             return 0
         }
-        guard newOffset > -(options.itemSize.width * CGFloat(items.count - 1)) else {
+        guard newOffset > -(itemSize.width * CGFloat(items.count - 1)) else {
             return items.count - 1
         }
-        return Int(round(abs(newOffset) / options.itemSize.width))
+        return Int(round(abs(newOffset) / itemSize.width))
     }
 }
 
@@ -175,7 +184,7 @@ extension PagingScrollView {
         case .fixed(.distance(let value)):
             return value
         case .dynamic(let ratio):
-            return options.itemSize.width * ratio.rawValue
+            return itemSize.width * ratio.rawValue
         }
     }
 }

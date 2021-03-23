@@ -27,6 +27,8 @@
 		C8786D172608CFA7003BFAFA /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786D162608CFA7003BFAFA /* CardView.swift */; };
 		C8786D1D2608EEF6003BFAFA /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786D1C2608EEF6003BFAFA /* Theme.swift */; };
 		C8786D252608EEFF003BFAFA /* ColorScheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786D242608EEFF003BFAFA /* ColorScheme.swift */; };
+		C8786D2E260A121C003BFAFA /* SizePreferenceKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786D2D260A121C003BFAFA /* SizePreferenceKey.swift */; };
+		C8786D33260A1230003BFAFA /* View+SizePreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786D32260A1230003BFAFA /* View+SizePreference.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +75,8 @@
 		C8786D162608CFA7003BFAFA /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		C8786D1C2608EEF6003BFAFA /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		C8786D242608EEFF003BFAFA /* ColorScheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorScheme.swift; sourceTree = "<group>"; };
+		C8786D2D260A121C003BFAFA /* SizePreferenceKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizePreferenceKey.swift; sourceTree = "<group>"; };
+		C8786D32260A1230003BFAFA /* View+SizePreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SizePreference.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -186,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				C8786CF62608AC3B003BFAFA /* PagingScrollView.swift */,
+				C8786D32260A1230003BFAFA /* View+SizePreference.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -198,6 +203,7 @@
 				C8786CE72608AB9E003BFAFA /* PagingScrollContentMode.swift */,
 				C8786CEC2608ABAA003BFAFA /* PagingScrollSensitivity.swift */,
 				C8786CF12608AC1A003BFAFA /* PagingScrollViewOptions.swift */,
+				C8786D2D260A121C003BFAFA /* SizePreferenceKey.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -347,6 +353,7 @@
 				C8786CED2608ABAA003BFAFA /* PagingScrollSensitivity.swift in Sources */,
 				C8786CCB2608A895003BFAFA /* DisplayStyleDetailView.swift in Sources */,
 				C8786CC32608A853003BFAFA /* DisplayStyle.swift in Sources */,
+				C8786D33260A1230003BFAFA /* View+SizePreference.swift in Sources */,
 				C8786D072608BD7F003BFAFA /* ThemeView.swift in Sources */,
 				C8786CFF2608BBFD003BFAFA /* DisplayStyleDetailOptionViewModel.swift in Sources */,
 				C847C82C2600ADD1003CF1F1 /* ContentView.swift in Sources */,
@@ -356,6 +363,7 @@
 				C8786CDB2608AB7E003BFAFA /* PagingScrollController.swift in Sources */,
 				C8786D1D2608EEF6003BFAFA /* Theme.swift in Sources */,
 				C847C82A2600ADD1003CF1F1 /* PagingScrollApp.swift in Sources */,
+				C8786D2E260A121C003BFAFA /* SizePreferenceKey.swift in Sources */,
 				C8786D0F2608CDF6003BFAFA /* FullScreenView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

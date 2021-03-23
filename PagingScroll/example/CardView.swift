@@ -18,14 +18,14 @@ struct CardView: View {
             .pickerStyle(SegmentedPickerStyle()).padding([.horizontal])
 
             GeometryReader { geo in
-                PagingScrollView(PagingScrollViewOptions(sensitivity, contentMode: contentMode, itemSpacing: 8, itemSize: CGSize(width: geo.size.width - 64, height: geo.size.height - 64)), highlightedIndex: $currentIndex) {
+                PagingScrollView(PagingScrollViewOptions(sensitivity, contentMode: contentMode, itemSpacing: 8, verticalPadding: 8, verticalGrowthBehavior: .expand), highlightedIndex: $currentIndex) {
                     ForEach(themes, id: \.self) { item in
                         let scheme = item.resolve()
                         let isActive = themes[currentIndex] == item
                         ZStack {
                             scheme.background.cornerRadius(isActive ? 13 : 0)
                             Text("The quick brown fox jumps over the lazy dog").font(.title2).foregroundColor(scheme.primaryText).padding()
-                        }.scaleEffect(CGSize(width: 1, height: isActive ? 1 : 0.85))
+                        }.frame(width: geo.size.width - 64, height: geo.size.height - 64).scaleEffect(CGSize(width: 1, height: isActive ? 1 : 0.85))
                     }
                 }
             }

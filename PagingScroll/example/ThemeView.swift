@@ -11,15 +11,16 @@ struct ThemeView: View {
             let currentScheme = themes[currentIndex].resolve()
             currentScheme.background.edgesIgnoringSafeArea(.all)
             VStack() {
-                PagingScrollView(PagingScrollViewOptions(contentMode: contentMode, itemSize: CGSize(width: 50, height: 50)), highlightedIndex: $currentIndex) {
+                PagingScrollView(PagingScrollViewOptions(contentMode: contentMode, verticalPadding: 16, verticalGrowthBehavior: .fit), highlightedIndex: $currentIndex) {
                     ForEach(themes, id: \.self) { item in
                         let isActive = themes[currentIndex] == item
                         let scheme = item.resolve()
                         RoundedRectangle(cornerRadius: isActive ? 13 : 0)
                             .foregroundColor(scheme.background).shadow(color: Color.white.opacity(0.5), radius: isActive ? 6 : 0)
+                            .frame(width: 50, height: 50)
                             
                     }
-                }.frame(height: 70)
+                }
                 
                 VStack(spacing: 16) {
                     Text("The quick brown fox jumps over the lazy dog").font(.title).foregroundColor(currentScheme.primaryText)
