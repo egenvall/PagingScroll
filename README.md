@@ -3,7 +3,7 @@
 #### This is a work in progress & purely experimental and should be treated as such
 
 The main reason behind this playground is to achieve a simple, reusable horizontal paging scroll that supports dynamic reloading of content with the flexibility of targeting the *highlighted* item.  
-If you want a dedicated pager there are better alternatives as this is somewhat of a flexible in-between feature that always *pages* to an item when the scroll ends, but supports continuous scroll during the drag gesture.
+If you want a dedicated pager there are better alternatives, especially if you're only supporting iOS 14 with `ScrollViewReader` as this is somewhat of a flexible in-between feature that always *pages* to an item when the scroll ends, but supports continuous scroll during the drag gesture.
 
 The `PagingScrollView` can be customized through `PagingScrollViewOptions`
 
@@ -14,7 +14,7 @@ The `PagingScrollView` can be customized through `PagingScrollViewOptions`
  `scrollSensitivity: PagingScrollSensitivity`
 
 **PagingScrollContentMode**  
-Determines whether the focused item will anchor to leeading or center of the frame  
+Determines whether the focused item will anchor to leading or center of the frame  
 ```
 enum PagingScrollContentMode {  
  case leading, center  
