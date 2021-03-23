@@ -2,7 +2,7 @@
 
 #### This is a work in progress & purely experimental and should be treated as such
 
-The main reason behind this playground is to achieve a simple, reusable horizontal paging scroll that supports dynamic reloading of content with the flexibility of targeting the *highlighted* item.  
+The main reason behind this playground is to achieve a simple, reusable horizontal paging scroll that supports dynamic reloading of content with the flexibility of targeting the *highlighted* item. This project will end up supporting iOS 13.
 If you want a dedicated pager there are better alternatives, especially if you're only supporting iOS 14 with `ScrollViewReader` as this is somewhat of a flexible in-between feature that always *pages* to an item when the scroll ends, but supports continuous scroll during the drag gesture.
 
 The `PagingScrollView` can be customized through `PagingScrollViewOptions`
