@@ -20,6 +20,9 @@ struct PagingScrollView<Content: View>: View {
     
     var body: some View {
         GeometryReader { proxy in
+            Color.clear.frame(height: 1)
+              .preference(key: SizePreferenceKey.self, value: proxy.size)
+            
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: options.itemSpacing) {
                     ForEach(items) { item in
@@ -55,21 +58,17 @@ struct PagingScrollView<Content: View>: View {
                         }
                     })
             )
-            .onAppear {
-                containerWidth = proxy.size.width
-            }
         }
         .frame(height: options.verticalGrowthBehavior == .fit ? itemSize.height + options.verticalPadding * 2 : nil)
-        .onAppear {
-            finalizeOffset()
-        }
         .onChange(of: highlightedIndex) { newIndex in
             guard !controller.isSwiping else {
                 return
             }
             finalizeOffset()
+        }.onPreferenceChange(SizePreferenceKey.self) { size in
+            containerWidth = size.width
+            finalizeOffset()
         }
-        
     }
 }
 
@@ -134,7 +133,6 @@ extension PagingScrollView {
             return
         }
         controller.offsetOnLastDragEnd = calculateEndingOffset()
-        print("Set Offset: \(controller.offsetOnLastDragEnd)")
     }
 }
 // MARK: - Calculate Highlighted Item
