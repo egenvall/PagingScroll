@@ -14,24 +14,22 @@ struct ThemeView: View {
             VStack() {
                 PagingScrollView(data: themes, options: PagingScrollViewOptions(contentMode: contentMode, verticalPadding: 16, verticalGrowthBehavior: .fit), highlightedItem: $selectedItem, highlightedIndex: $currentIndex) { item in
                     build(item)
-                }
-                VStack(spacing: 16) {
-                    ZStack {
-                        currentScheme.secondaryBackground.cornerRadius(13)
-                        HStack {
-                            Text("Jump jump jump jump").font(.body).foregroundColor(currentScheme.secondaryText)
-                        }
-                    }.padding()
-                }
+                    }
+                
+                Image(currentScheme.themeImageAssetName).resizable().cornerRadius(13).padding().id(selectedItem.hashValue)
+
             }
             
         }.animation(.spring())
     }
+    
     @ViewBuilder func build(_ item: ColorScheme) -> some View {
         let isActive = selectedItem == item
         let scheme = item.resolve()
         RoundedRectangle(cornerRadius: isActive ? 13 : 0)
-            .foregroundColor(scheme.background).shadow(color: Color.white.opacity(0.5), radius: isActive ? 6 : 0)
+            .foregroundColor(scheme.background.opacity(isActive ? 1 : 0.6))
+            .offset(x: 0, y: isActive ? -10 : 10)
+            .shadow(color: Color.white.opacity(0.5), radius: isActive ? 6 : 0)
             .frame(width: 50, height: 50)
     }
 }

@@ -9,7 +9,7 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
     let options: PagingScrollViewOptions
     @Binding var highlightedItem: Data.Element
     @Binding var highlightedIndex: Int
-
+    var onTapGesture: (() -> Void)? = nil
     let content: (Data.Element) -> Content
     
     var body: some View {
@@ -25,6 +25,7 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
                                 itemSize = size
                             }
                             .onTapGesture {
+                                onTapGesture?()
                                 selectItem(item)
                             }
                         
@@ -136,7 +137,9 @@ extension PagingScrollView {
         guard let index = data.firstIndex(of: item) else {
             return
         }
-        highlightedItem = item
+        withAnimation {
+            highlightedItem = item
+        }
         selectIndex(index)
     }
     private func selectIndex(_ index: Int) {
@@ -147,8 +150,9 @@ extension PagingScrollView {
         guard data.count - 1 >= index else {
             return
         }
-       
-        highlightedItem = data[index]
+        withAnimation {
+            highlightedItem = data[index]
+        }
         highlightedIndex = index
     }
     
