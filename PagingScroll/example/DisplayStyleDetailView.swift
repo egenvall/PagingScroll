@@ -3,7 +3,6 @@ import Foundation
 struct DisplayStyleDetailView: View {
     @StateObject var viewModel: DisplayStyleDetailOptionViewModel = DisplayStyleDetailOptionViewModel()
     var displayStyle: DisplayStyle
-    let test = [Color.red, Color.blue, Color.yellow, Color.green, Color.pink, Color.purple]
     @State var centeredIndex = 0
     
     

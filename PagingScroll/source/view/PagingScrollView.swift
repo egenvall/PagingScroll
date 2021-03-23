@@ -1,22 +1,16 @@
 import SwiftUI
 
-struct PagingScrollView<Content: View>: View {
-    @StateObject var controller: PagingScrollController = PagingScrollController()
-    @Binding var highlightedIndex: Int
-    let items: [RowItem]
-    let options: PagingScrollViewOptions
+struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where Data.Element : Hashable, Data.Index == Int {
+    @StateObject private var controller: PagingScrollController = PagingScrollController()
     @State var containerWidth: CGFloat = 0
     @State private var itemSize: CGSize = .zero
-    
-    init<Data: RandomAccessCollection, ID>(_ options: PagingScrollViewOptions, highlightedIndex: Binding<Int>, @ViewBuilder content: () -> ForEach<Data, ID, Content>) {
-        self._highlightedIndex = highlightedIndex
-        self.options = options
-        self.items = content().data
-            .enumerated()
-            .compactMap { index, element in
-                RowItem(content().content(element), id: index)
-            }
-    }
+
+    let data: Data
+    let options: PagingScrollViewOptions
+    @Binding var highlightedItem: Data.Element
+    @Binding var highlightedIndex: Int
+
+    let content: (Data.Element) -> Content
     
     var body: some View {
         GeometryReader { proxy in
@@ -25,14 +19,13 @@ struct PagingScrollView<Content: View>: View {
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: options.itemSpacing) {
-                    ForEach(items) { item in
-                        item.view
+                    ForEach(data, id: \.self) { item in
+                        content(item)
                             .readSize { size in
                                 itemSize = size
-                                finalizeOffset()
                             }
                             .onTapGesture {
-                                selectIndex(item.id)
+                                selectItem(item)
                             }
                         
                     }
@@ -137,11 +130,25 @@ extension PagingScrollView {
 }
 // MARK: - Calculate Highlighted Item
 extension PagingScrollView {
+    
+    // O(n)
+    private func selectItem(_ item: Data.Element) {
+        guard let index = data.firstIndex(of: item) else {
+            return
+        }
+        highlightedItem = item
+        selectIndex(index)
+    }
     private func selectIndex(_ index: Int) {
         setCurrentIndex(index)
         finalizeOffset()
     }
     private func setCurrentIndex(_ index: Int) {
+        guard data.count - 1 >= index else {
+            return
+        }
+       
+        highlightedItem = data[index]
         highlightedIndex = index
     }
     
@@ -153,8 +160,8 @@ extension PagingScrollView {
         guard newOffset < 0 else {
             return 0
         }
-        guard newOffset > -(itemSize.width * CGFloat(items.count - 1)) else {
-            return items.count - 1
+        guard newOffset > -(itemSize.width * CGFloat(data.count - 1)) else {
+            return data.count - 1
         }
         return Int(round(abs(newOffset) / itemSize.width))
     }
@@ -170,7 +177,7 @@ extension PagingScrollView {
             setCurrentIndex(highlightedIndex - 1)
         }
         else {
-            guard swipeDistance < -requiredDistanceForSensitivity(), highlightedIndex + 1 <= items.count - 1 else {
+            guard swipeDistance < -requiredDistanceForSensitivity(), highlightedIndex + 1 <= data.count - 1 else {
                 return
             }
             setCurrentIndex(highlightedIndex + 1)
