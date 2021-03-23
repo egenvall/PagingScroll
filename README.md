@@ -62,11 +62,9 @@ You can either tap to scroll, scroll continously or swipe to scroll to the next 
 
 
 
+![Small Items](https://github.com/egenvall/PagingScroll/blob/main/PagingScroll/small.gif)
 
-https://user-images.githubusercontent.com/3669105/112120847-ea8ba700-8bbe-11eb-989b-522bdd7bad31.MP4
+![Small Items](https://github.com/egenvall/PagingScroll/blob/main/PagingScroll/card-final.gif)
 
-
-
-https://user-images.githubusercontent.com/3669105/112121213-45250300-8bbf-11eb-851d-b8061eba68f5.MP4
 
 Check out the [Example](https://github.com/egenvall/PagingScroll/tree/main/PagingScroll/example) for more details
