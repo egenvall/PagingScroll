@@ -22,6 +22,7 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
                     ForEach(data, id: \.self) { item in
                         content(item)
                             .readSize { size in
+                                print("Size: \(size)")
                                 itemSize = size
                             }
                             .onTapGesture {
@@ -30,7 +31,7 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
                             }
                         
                     }
-                }.padding([.vertical], options.verticalPadding)
+                }
             }
             .content
             .offset(x: controller.isSwiping ? controller.offset : controller.offsetOnLastDragEnd)
@@ -53,7 +54,7 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
                     })
             )
         }
-        .frame(height: options.verticalGrowthBehavior == .fit ? itemSize.height + options.verticalPadding * 2 : nil)
+        .frame(height: options.verticalGrowthBehavior == .fit ? itemSize.height : nil)
         .onChange(of: highlightedIndex) { newIndex in
             guard !controller.isSwiping else {
                 return

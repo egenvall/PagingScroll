@@ -12,7 +12,7 @@ struct ThemeView: View {
             let currentScheme = selectedItem.resolve()
             currentScheme.background.edgesIgnoringSafeArea(.all)
             VStack() {
-                PagingScrollView(data: themes, options: PagingScrollViewOptions(contentMode: contentMode, verticalPadding: 16, verticalGrowthBehavior: .fit), highlightedItem: $selectedItem, highlightedIndex: $currentIndex) { item in
+                PagingScrollView(data: themes, options: PagingScrollViewOptions(contentMode: contentMode, verticalGrowthBehavior: .expand), highlightedItem: $selectedItem, highlightedIndex: $currentIndex) { item in
                     build(item)
                     }
                 
@@ -31,6 +31,7 @@ struct ThemeView: View {
             .offset(x: 0, y: isActive ? -10 : 10)
             .shadow(color: Color.white.opacity(0.5), radius: isActive ? 6 : 0)
             .frame(width: 50, height: 50)
+            .padding([.vertical], 20)
     }
 }
 
