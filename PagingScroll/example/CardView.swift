@@ -1,6 +1,6 @@
 import SwiftUI
 struct CardView: View {
-    @Binding var currentIndex: Int
+    //@Binding var currentIndex: Int
     let contentMode: PagingScrollContentMode
     @State var sensitivity: PagingScrollSensitivity = .dynamic(.standard)
     
@@ -31,22 +31,22 @@ struct CardView: View {
 //                }
             }
             HStack {
-                Button("Remove Card") {
-                    guard !themes.isEmpty else {
-                        return
-                    }
-                    let indexToRemove = currentIndex
-                    if currentIndex != 0 {
-                        currentIndex -= 1
-                    }
-                    themes.remove(at: indexToRemove)
-                    
-                }
-                Spacer()
-                Button("Replace Content") {
-                    themes = [.red, .purple, .pink]
-                    currentIndex = 0
-                }
+//                Button("Remove Card") {
+//                    guard !themes.isEmpty else {
+//                        return
+//                    }
+//                    let indexToRemove = currentIndex
+//                    if currentIndex != 0 {
+//                        currentIndex -= 1
+//                    }
+//                    themes.remove(at: indexToRemove)
+//                    
+//                }
+//                Spacer()
+//                Button("Replace Content") {
+//                    themes = [.red, .purple, .pink]
+//                    currentIndex = 0
+//                }
             }.padding([.horizontal])
             
             

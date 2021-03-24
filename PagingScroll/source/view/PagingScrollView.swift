@@ -8,8 +8,9 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
     let data: Data
     let options: PagingScrollViewOptions
     @Binding var highlightedItem: Data.Element
-    @Binding var highlightedIndex: Int
+    @State var highlightedIndex: Int = 0
     var onTapGesture: (() -> Void)? = nil
+    var onHighlightedIndexChanged: ((Int) -> Void)? = nil
     let content: (Data.Element) -> Content
     
     var body: some View {
@@ -155,6 +156,7 @@ extension PagingScrollView {
             highlightedItem = data[index]
         }
         highlightedIndex = index
+        onHighlightedIndexChanged?(highlightedIndex)
     }
     
     /**

@@ -1,6 +1,6 @@
 import SwiftUI
 struct FullScreenView: View {
-    @Binding var currentIndex: Int
+    //@Binding var currentIndex: Int
     private let themes: [ColorScheme] = [.red, .blue, .yellow, .green, .pink, .purple]
 
     var body: some View {

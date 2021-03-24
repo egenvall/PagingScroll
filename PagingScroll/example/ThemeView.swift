@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 
 struct ThemeView: View {
-    @Binding var currentIndex: Int
+    @State var centeredIndex = 0
     @State var selectedItem: ColorScheme = .red
     let contentMode: PagingScrollContentMode
     private let themes: [ColorScheme] = [.red, .blue, .yellow, .green, .pink, .purple]
@@ -12,17 +12,18 @@ struct ThemeView: View {
             let currentScheme = selectedItem.resolve()
             currentScheme.background.edgesIgnoringSafeArea(.all)
             VStack() {
-                PagingScrollView(data: themes, options: PagingScrollViewOptions(contentMode: contentMode, verticalGrowthBehavior: .expand), highlightedItem: $selectedItem, highlightedIndex: $currentIndex) { item in
+                PagingScrollView(data: themes, options: PagingScrollViewOptions(contentMode: contentMode), highlightedItem: $selectedItem, onHighlightedIndexChanged: onIndexChange) { item in
                     build(item)
-                    }
-                
+                }
                 Image(currentScheme.themeImageAssetName).resizable().cornerRadius(13).padding().id(selectedItem.hashValue)
-
             }
             
         }.animation(.spring())
     }
     
+    func onIndexChange(_ newIndex: Int) {
+        print("New Index: \(newIndex)")
+    }
     @ViewBuilder func build(_ item: ColorScheme) -> some View {
         let isActive = selectedItem == item
         let scheme = item.resolve()
