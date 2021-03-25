@@ -1,7 +1,5 @@
 import SwiftUI
-enum PagingScrollVerticalGrowthBehavior {
-    case fit, expand
-}
+
 struct PagingScrollViewOptions: Equatable {
     let itemSpacing: CGFloat
     let contentMode: PagingScrollContentMode

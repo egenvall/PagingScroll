@@ -13,6 +13,7 @@
 		C847C8312600ADD3003CF1F1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C847C8302600ADD3003CF1F1 /* Preview Assets.xcassets */; };
 		C847C83C2600ADD4003CF1F1 /* PagingScrollTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847C83B2600ADD4003CF1F1 /* PagingScrollTests.swift */; };
 		C847C8472600ADD4003CF1F1 /* PagingScrollUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C847C8462600ADD4003CF1F1 /* PagingScrollUITests.swift */; };
+		C84E6EF7260CE67D00E36BDF /* PagingScrollVerticalGrowthBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = C84E6EF6260CE67D00E36BDF /* PagingScrollVerticalGrowthBehavior.swift */; };
 		C8786CC32608A853003BFAFA /* DisplayStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786CC22608A853003BFAFA /* DisplayStyle.swift */; };
 		C8786CCB2608A895003BFAFA /* DisplayStyleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786CCA2608A895003BFAFA /* DisplayStyleDetailView.swift */; };
 		C8786CDB2608AB7E003BFAFA /* PagingScrollController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8786CDA2608AB7E003BFAFA /* PagingScrollController.swift */; };
@@ -61,6 +62,7 @@
 		C847C8422600ADD4003CF1F1 /* PagingScrollUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PagingScrollUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C847C8462600ADD4003CF1F1 /* PagingScrollUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingScrollUITests.swift; sourceTree = "<group>"; };
 		C847C8482600ADD4003CF1F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C84E6EF6260CE67D00E36BDF /* PagingScrollVerticalGrowthBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingScrollVerticalGrowthBehavior.swift; sourceTree = "<group>"; };
 		C8786CC22608A853003BFAFA /* DisplayStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayStyle.swift; sourceTree = "<group>"; };
 		C8786CCA2608A895003BFAFA /* DisplayStyleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayStyleDetailView.swift; sourceTree = "<group>"; };
 		C8786CDA2608AB7E003BFAFA /* PagingScrollController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PagingScrollController.swift; sourceTree = "<group>"; };
@@ -204,6 +206,7 @@
 				C8786CEC2608ABAA003BFAFA /* PagingScrollSensitivity.swift */,
 				C8786CF12608AC1A003BFAFA /* PagingScrollViewOptions.swift */,
 				C8786D2D260A121C003BFAFA /* SizePreferenceKey.swift */,
+				C84E6EF6260CE67D00E36BDF /* PagingScrollVerticalGrowthBehavior.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -356,6 +359,7 @@
 				C8786D33260A1230003BFAFA /* View+SizePreference.swift in Sources */,
 				C8786D072608BD7F003BFAFA /* ThemeView.swift in Sources */,
 				C8786CFF2608BBFD003BFAFA /* DisplayStyleDetailOptionViewModel.swift in Sources */,
+				C84E6EF7260CE67D00E36BDF /* PagingScrollVerticalGrowthBehavior.swift in Sources */,
 				C847C82C2600ADD1003CF1F1 /* ContentView.swift in Sources */,
 				C8786CF22608AC1A003BFAFA /* PagingScrollViewOptions.swift in Sources */,
 				C8786CE82608AB9E003BFAFA /* PagingScrollContentMode.swift in Sources */,
