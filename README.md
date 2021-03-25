@@ -10,7 +10,7 @@ The `PagingScrollView` can be customized through `PagingScrollViewOptions`
 **PagingScrollViewOptions**  
  `itemSpacing: CGFloat`  
  `contentMode: PagingScrollContentMode`  
- `scrollSensitivity: PagingScrollSensitivity`
+ `scrollSensitivity: PagingScrollSensitivity`  
  `verticalGrowthBehavior : PagingScrollVerticalGrowthBehavior`
 
 **PagingScrollContentMode**  
@@ -37,7 +37,7 @@ enum DynamicScrollSensitivity: CGFloat {
 }
 ```
 
-**PagingScrollVerticalGrowthBehavior**
+**PagingScrollVerticalGrowthBehavior**  
 Controls whether the PagingScrollView will fit around its content vertically or expand take up the available vertical space
 ```
 enum PagingScrollVerticalGrowthBehavior {
