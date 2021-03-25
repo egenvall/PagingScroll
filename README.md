@@ -46,6 +46,7 @@ enum PagingScrollVerticalGrowthBehavior {
 ```
 
 ## Usage
+`struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where Data.Element : Hashable, Data.Index == Int, Data: Equatable`  
 `init(_ data: Data, options: PagingScrollViewOptions = PagingScrollViewOptions(), onTapGesture: (() -> Void)? = nil, onHighlightedIndexChanged: ((Int) -> Void)? = nil, content: @escaping (Data.Element, Bool) -> Content)` 
 ```
 private let themes: [ColorScheme] = [.red, .blue, .yellow, .green, .pink, .purple]
