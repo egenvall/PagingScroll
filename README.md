@@ -61,6 +61,9 @@ PagingScrollView(themes) { item, isActive in
 
 Each item has an `onTapGesture` which scrolls to that item.  
 You can either tap to scroll, scroll continously or swipe to scroll to the next item depending on `PagingScrollSensitivity`
+![Card](https://github.com/egenvall/PagingScroll/blob/main/PagingScroll/card-small.gif)
+![Small](https://github.com/egenvall/PagingScroll/blob/main/PagingScroll/small.gif)
+![Fullscreen](https://github.com/egenvall/PagingScroll/blob/main/PagingScroll/fullscreen.gif)
 
 
 Check out the [Example](https://github.com/egenvall/PagingScroll/tree/main/PagingScroll/example) for more details
