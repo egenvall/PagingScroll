@@ -3,8 +3,6 @@ import Foundation
 struct DisplayStyleDetailView: View {
     @StateObject var viewModel: DisplayStyleDetailOptionViewModel = DisplayStyleDetailOptionViewModel()
     var displayStyle: DisplayStyle
-    let test = [Color.red, Color.blue, Color.yellow, Color.green, Color.pink, Color.purple]
-    @State var centeredIndex = 0
     
     
     var body: some View {
@@ -25,15 +23,15 @@ struct DisplayStyleDetailView: View {
         }
     }
     private func cardView(_ contentMode: PagingScrollContentMode) -> some View {
-        CardView(currentIndex: $centeredIndex, contentMode: contentMode, sensitivity: .dynamic(.extreme))
+        CardView(contentMode: contentMode, sensitivity: .dynamic(.extreme))
             .navigationTitle("Card")
     }
     private func smallView(_ contentMode: PagingScrollContentMode) -> some View {
-        ThemeView(currentIndex: $centeredIndex, contentMode: contentMode)
+        ThemeView(contentMode: contentMode)
             .navigationTitle("Theme")
     }
     private func fullScreenView() -> some View {
-        FullScreenView(currentIndex: $centeredIndex)
+        FullScreenView()
             .navigationTitle("Display")
     }
 }

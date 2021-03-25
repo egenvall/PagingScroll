@@ -6,8 +6,25 @@ enum ColorScheme {
             background: background(),
             secondaryBackground: secondaryBackground(),
             primaryText: text(),
-            secondaryText: secondaryText()
+            secondaryText: secondaryText(),
+            themeImageAssetName: assetName()
         )
+    }
+    private func assetName() -> String {
+        switch self {
+        case .red:
+            return "themeImageRed"
+        case .blue:
+            return "themeImageBlue"
+        case .green:
+            return "themeImageGreen"
+        case .yellow:
+            return "themeImageYellow"
+        case .pink:
+            return  "themeImagePink"
+        case .purple:
+            return "themeImagePurple"
+        }
     }
     private func background() -> Color {
         switch self {
