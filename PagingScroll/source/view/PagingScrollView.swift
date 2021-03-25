@@ -1,36 +1,50 @@
 import SwiftUI
 
-struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where Data.Element : Hashable, Data.Index == Int {
+struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where Data.Element : Hashable, Data.Index == Int, Data: Equatable {
     @StateObject private var controller: PagingScrollController = PagingScrollController()
-    @State var containerWidth: CGFloat = 0
+    @State private var containerWidth: CGFloat = 0
     @State private var itemSize: CGSize = .zero
-
+    
     let data: Data
     let options: PagingScrollViewOptions
-    @Binding var highlightedItem: Data.Element
-    @State var highlightedIndex: Int = 0
+    @State private var highlightedIndex: Int = 0
     var onTapGesture: (() -> Void)? = nil
     var onHighlightedIndexChanged: ((Int) -> Void)? = nil
-    let content: (Data.Element) -> Content
+    let content: (Data.Element, Bool) -> Content
     
+    init(_ data: Data, options: PagingScrollViewOptions = PagingScrollViewOptions(), onTapGesture: (() -> Void)? = nil, onHighlightedIndexChanged: ((Int) -> Void)? = nil, content: @escaping (Data.Element, Bool) -> Content) {
+        self.data = data
+        self.options = options
+        self.onTapGesture = onTapGesture
+        self.onHighlightedIndexChanged = onHighlightedIndexChanged
+        self.content = content
+    }
+    
+    private func isActiveItem(_ item: Data.Element) -> Bool {
+        guard !data.isEmpty else {
+            return false
+        }
+        guard data.count - 1 >= highlightedIndex else {
+            return false
+        }
+        return data[highlightedIndex] == item
+    }
     var body: some View {
         GeometryReader { proxy in
             Color.clear.frame(height: 1)
-              .preference(key: SizePreferenceKey.self, value: proxy.size)
+                .preference(key: SizePreferenceKey.self, value: proxy.size)
             
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .center, spacing: options.itemSpacing) {
                     ForEach(data, id: \.self) { item in
-                        content(item)
+                        content(item, isActiveItem(item))
                             .readSize { size in
-                                print("Size: \(size)")
                                 itemSize = size
                             }
                             .onTapGesture {
                                 onTapGesture?()
                                 selectItem(item)
                             }
-                        
                     }
                 }
             }
@@ -56,12 +70,15 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
             )
         }
         .frame(height: options.verticalGrowthBehavior == .fit ? itemSize.height : nil)
-        .onChange(of: highlightedIndex) { newIndex in
-            guard !controller.isSwiping else {
-                return
+        .onChange(of: data) { newData in
+            if highlightedIndex > newData.count - 1 {
+                guard let item = newData.last else {
+                    return
+                }
+                selectItem(item)
             }
-            finalizeOffset()
-        }.onPreferenceChange(SizePreferenceKey.self) { size in
+        }
+        .onPreferenceChange(SizePreferenceKey.self) { size in
             containerWidth = size.width
             finalizeOffset()
         }
@@ -70,8 +87,8 @@ struct PagingScrollView<Data: RandomAccessCollection, Content: View>: View where
 
 // MARK: - Scroll Calculations
 extension PagingScrollView {
-    private func calculateEndingOffset() -> CGFloat {
-        let offset = calculateDefaultOffset()
+    private func calculateEndingOffset(for index: Int) -> CGFloat {
+        let offset = calculateDefaultOffset(for: index)
         let finalOffset = offset + additionalOffset()
         return finalOffset
     }
@@ -82,8 +99,8 @@ extension PagingScrollView {
         return (containerWidth - itemSize.width) / 2
     }
     
-    private func calculateDefaultOffset() -> CGFloat {
-        return -(itemSize.width + options.itemSpacing) * CGFloat(highlightedIndex)
+    private func calculateDefaultOffset(for index: Int) -> CGFloat {
+        return -(itemSize.width + options.itemSpacing) * CGFloat(index)
     }
     
     private func getNewOffset(_ swipeDistance: CGFloat) -> CGFloat {
@@ -119,16 +136,16 @@ extension PagingScrollView {
     /**
      Sets the final offset of the ScrollView when the user is no longer swiping
      Will also be invoked:
-        - onAppear
-        - When highlightedIndex is changed and the user is not swiping
+     - onAppear
+     - When highlightedIndex is changed and the user is not swiping
      
      */
     private func finalizeOffset() {
         guard options.contentMode == .center else {
-            controller.offsetOnLastDragEnd = calculateDefaultOffset()
+            controller.offsetOnLastDragEnd = calculateDefaultOffset(for: highlightedIndex)
             return
         }
-        controller.offsetOnLastDragEnd = calculateEndingOffset()
+        controller.offsetOnLastDragEnd = calculateEndingOffset(for: highlightedIndex)
     }
 }
 // MARK: - Calculate Highlighted Item
@@ -138,9 +155,6 @@ extension PagingScrollView {
     private func selectItem(_ item: Data.Element) {
         guard let index = data.firstIndex(of: item) else {
             return
-        }
-        withAnimation {
-            highlightedItem = item
         }
         selectIndex(index)
     }
@@ -152,9 +166,6 @@ extension PagingScrollView {
         guard data.count - 1 >= index else {
             return
         }
-        withAnimation {
-            highlightedItem = data[index]
-        }
         highlightedIndex = index
         onHighlightedIndexChanged?(highlightedIndex)
     }
@@ -164,13 +175,17 @@ extension PagingScrollView {
      */
     private func calculateClosestIndex(_ swipeDistance: CGFloat) -> Int {
         let newOffset = getNewOffset(swipeDistance)
-        guard newOffset < 0 else {
+        return getClosestIndex(newOffset)
+        
+    }
+    private func getClosestIndex(_ offset: CGFloat) -> Int {
+        guard offset < 0 else {
             return 0
         }
-        guard newOffset > -(itemSize.width * CGFloat(data.count - 1)) else {
+        guard offset > -(itemSize.width * CGFloat(data.count - 1)) else {
             return data.count - 1
         }
-        return Int(round(abs(newOffset) / itemSize.width))
+        return Int(round(abs(offset) / (itemSize.width + options.itemSpacing)))
     }
 }
 
