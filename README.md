@@ -2,16 +2,16 @@
 
 #### This is a work in progress & purely experimental and should be treated as such
 
-The main reason behind this playground is to achieve a simple, reusable horizontal paging scroll that supports dynamic reloading of content with the flexibility of targeting the *highlighted* item. This project will end up supporting iOS 13.
+The main reason behind this playground is to achieve a simple, reusable horizontal paging scroll that supports dynamic reloading of content with the flexibility reacting to the *highlighted* item. This project will end up supporting iOS 13.
 If you want a dedicated pager there are better alternatives, especially if you're only supporting iOS 14 with `ScrollViewReader` as this is somewhat of a flexible in-between feature that always *pages* to an item when the scroll ends, but supports continuous scroll during the drag gesture.
 
 The `PagingScrollView` can be customized through `PagingScrollViewOptions`
 
 **PagingScrollViewOptions**  
  `itemSpacing: CGFloat`  
- `itemSize: CGFloat`  
  `contentMode: PagingScrollContentMode`  
  `scrollSensitivity: PagingScrollSensitivity`
+ `verticalGrowthBehavior : PagingScrollVerticalGrowthBehavior`
 
 **PagingScrollContentMode**  
 Determines whether the focused item will anchor to leading or center of the frame  
@@ -37,34 +37,29 @@ enum DynamicScrollSensitivity: CGFloat {
 }
 ```
 
-## Usage
-`init<Data: RandomAccessCollection, ID>(_ options: PagingScrollViewOptions, highlightedIndex: Binding<Int>, @ViewBuilder content: () -> ForEach<Data, ID, Content>)` 
+**PagingScrollVerticalGrowthBehavior**
+Controls whether the PagingScrollView will fit around its content vertically or expand take up the available vertical space
 ```
-PagingScrollView(PagingScrollViewOptions(itemSize: CGSize(width: 50, height: 50)), highlightedIndex: $currentIndex) {
-  ForEach(themes, id: \.self) { item in
-    let isActive = themes[currentIndex] == item
-    let scheme = item.resolve()
-    RoundedRectangle(cornerRadius: isActive ? 13 : 0)
-    .foregroundColor(scheme.background)
-    .shadow(color: Color.white.opacity(0.5), radius: isActive ? 6 : 0)
-                            
-  }
-}.frame(height: 70)
+enum PagingScrollVerticalGrowthBehavior {
+    case fit, expand
+}
 ```
 
-You can use a `.frame(...)` to control the size of the `PagingScrollView` as it clips the contents.  
-The highlighted index is currently passed as a `Binding<Int>` which allows you to customize the *highlighted* item, this is subject to change
+## Usage
+`init(_ data: Data, options: PagingScrollViewOptions = PagingScrollViewOptions(), onTapGesture: (() -> Void)? = nil, onHighlightedIndexChanged: ((Int) -> Void)? = nil, content: @escaping (Data.Element, Bool) -> Content)` 
+```
+private let themes: [ColorScheme] = [.red, .blue, .yellow, .green, .pink, .purple]
+
+PagingScrollView(themes) { item, isActive in
+    ZStack {
+        item.resolve().background
+        item.resolve().secondaryBackground.frame(width: 30, height: 30)
+    }.frame(width: isActive ? 200 : 100, height: 100)
+}
+```
 
 Each item has an `onTapGesture` which scrolls to that item.  
 You can either tap to scroll, scroll continously or swipe to scroll to the next item depending on `PagingScrollSensitivity`
-
-
-
-
-
-![Small Items](https://github.com/egenvall/PagingScroll/blob/main/PagingScroll/small.gif)
-
-![Small Items](https://github.com/egenvall/PagingScroll/blob/main/PagingScroll/card-final.gif)
 
 
 Check out the [Example](https://github.com/egenvall/PagingScroll/tree/main/PagingScroll/example) for more details
